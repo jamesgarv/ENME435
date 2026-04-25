@@ -86,10 +86,12 @@ for x in files:  # x is the filename
 
 # Define ro and rpc, specific to your lidar
 # Radian offset, which compensates for alignment errors
+# ro = 0.0006
 ro = 0.0006
 
 # Radians per pixel pitch, or Gain [rad / pixel]
-rpc = 0.000073
+#  rpc = 0.000073
+rpc = 0.000085
 
 # Define the full span of pixels from center
 # Since our Python code sets the camera frame (x,y) coordinates
