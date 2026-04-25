@@ -122,6 +122,3 @@ plt.xlabel('Pixel')
 plt.ylabel('Distance to Target (Inches)')
 plt.axis([0, 720, 0, 120])
 plt.show()
-
-
-
