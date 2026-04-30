@@ -54,3 +54,42 @@ while True:
 
     # define unique name for a new video
     timestr = time.strftime("doorbell-%Y%m%d-%H%M%S")
+
+  command2 = "libcamera-vid --width 1000 --height 720 --framerate 30 -t 15000 -o " + timestr + ".h264"
+  os.system(command2)
+
+  print("Finished recording...converting to mp4")
+
+  command3 = f"ffmpeg -r 30 -i {timestr}.h264 -c:v copy {timestr}.mp4" # MP4Box was not available so using ffmpeg instead
+  os.system(command3)
+
+  print("Finished converting file, available for viewing")
+
+  # write masked images to file
+  cv2.imwrite("gray1.jpg", gray1)
+  cv2.imwrite("gray2.jpg", gray2)
+  cv2.imwrite("masked1.jpg", masked1)
+  cv2.imwrite("masked2.jpg", masked2)
+
+  # Upload video file to the cloud
+  fullDirectory = '/home/pi/SmartDoorbell/' + timestr + '.mp4'
+  command4 = 'sudo /home/pi/dropbox_uploader.sh upload ' + fullDirectory + ' /'
+  os.system(command4)
+
+  # send email to user with images
+  password = 'wlxyjdlovicufodc'
+  yag = yagmail.SMTP('westonspi4@gmail.com', password)
+
+  f_time = datetime.now().strftime('%a %d %b @ %H:%M')
+  images = ['test0.jpg', 'test1.jpg', 'gray1.jpg', 'gray2.jpg', 'masked1.jpg', 'masked2.jpg']
+  yag.send(to = 'wfuhr@terpmail.umd.edu', subject = 'Smart Doorbell recording from: ' + f_time, 
+           contents = "Smart Doorbell images: " + f_time, attachments = images)
+    print("Email Delivered")
+
+else:
+    print("Nothing detected")
+
+# Read in Image
+#test1 = cv2.imread("DoorBellAlign3.jpg") # First Image take
+test1 = cv2.imread("DoorBellAlign2.jpg") # Second Test Image
+test1 = cv2.rotate(test1, cv2.ROTATE_90_CLOCKWISE)
