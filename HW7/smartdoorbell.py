@@ -82,10 +82,7 @@ try:
         detector = np.zeros((gray2.shape[0], gray2.shape[1]), dtype="uint8")
 
         # pixel by pixel comparison
-        for i in range(0, gray2.shape[0]):
-            for j in range(0, gray2.shape[1]):
-                if abs(int(gray2[i, j]) - int(gray1[i, j])) > pixel_threshold:
-                    detector[i, j] = 255
+        detector = np.where(np.abs(gray2.astype(int) - gray1.astype(int)) > pixel_threshold, 255, 0).astype("uint8")
 
         # sum the detector array
         detector_total = np.uint64(np.sum(detector))
