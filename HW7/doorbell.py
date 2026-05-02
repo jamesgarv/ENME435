@@ -166,8 +166,8 @@ try:
            # os.system(command4)
 
 
-            smtpUser = 'jamesgarvpi@gmail.com'
-            smtpPass = 'raspberrypi'
+            smtpUser = 'peam.affiliate@gmail.com'
+            smtpPass = 'xirr uwbq bqzy skte'
 
             toAdd = 'jgarvey5@terpmail.umd.edu'
             fromAdd = smtpUser
