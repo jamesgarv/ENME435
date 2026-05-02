@@ -160,16 +160,16 @@ try:
             cv2.imwrite("masked1.jpg", masked1)
             cv2.imwrite("masked2.jpg", masked2)
 
-            fullDirectory = '/home/pi/Documents/ENME435/HW/HW7/' + timestr + '.mp4'
+            fullDirectory = '/home/pi/Documents/ENME435/HW7/' + timestr + '.mp4'
 
            # command4 = '/home/pi/dropbox_uploader.sh upload ' + fullDirectory + ' /'
            # os.system(command4)
 
 
-            smtpUser = 'peam.affiliate@gmail.com'
-            smtpPass = 'xirr uwbq bqzy skte'
+            smtpUser = 'jamesgarvpi@gmail.com'
+            smtpPass = 'raspberrypi'
 
-            toAdd = 'peampats@gmail.com'
+            toAdd = 'jgarvey5@terpmail.umd.edu'
             fromAdd = smtpUser
 
             f_time = datetime.now().strftime('%a %d %b @ %H:%M')
