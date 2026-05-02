@@ -59,7 +59,7 @@ while True:
     # command2 = "raspivid -n -w 1000 -h 720 -t 15000 -o " + timestr + ".h264"
     # os.system(command2)
 
-    print("Finished recording...converting to mp4")
+    # print("Finished recording...converting to mp4")
 
     # command3 = f"ffmpeg -r 30 -i {timestr}.h264 -c:v copy {timestr}.mp4" # MP4Box was not available so using ffmpeg instead
     # os.system(command3)
