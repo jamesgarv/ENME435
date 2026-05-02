@@ -39,7 +39,7 @@ pcZ = []
 # lidar parameters
 # these should be copied/tuned based on your lidar setup
 ro = 0.0006
-rpc = 0.000073
+rpc = 0.000085
 
 # 12 inch separation distance, laser to camera, in meters
 H = 0.3048
