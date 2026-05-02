@@ -8,8 +8,8 @@ from datetime import datetime
 def mask_image(img):
   mask = np.zeros((img.shape[0], img.shape[1]), dtype="uint8")
 
-  # masking area
-  pts = np.array([[10, 10], [100, 10], [100, 100], [10, 100]], dtype=np.int32)
+  # masking area updated for your doorway photo
+  pts = np.array([[350, 50], [img.shape[1]-50, 50], [img.shape[1]-50, img.shape[0]-200], [350, img.shape[0]-200]], dtype=np.int32)
   
   cv2.fillConvexPoly(mask, pts, 255)
   masked = cv2.bitwise_and(img, img, mask=mask)
@@ -84,10 +84,13 @@ while True:
     f_time = datetime.now().strftime('%a %d %b @ %H:%M')
     images = ['test0.jpg', 'test1.jpg', 'gray1.jpg', 'gray2.jpg', 'masked1.jpg', 'masked2.jpg']
     
-    # Optional: Comment out the next line if you don't want to wait for the email timeout during your video
-    yag.send(to = 'jgarvey5@terpmail.umd.edu', subject = 'Smart Doorbell recording from: ' + f_time, 
-             contents = "Smart Doorbell images: " + f_time, attachments = images)
-    print("Email Delivered")
+    # Try sending the email - if it errors, just explain it in the video
+    try:
+        yag.send(to = 'jgarvey5@terpmail.umd.edu', subject = 'Smart Doorbell recording from: ' + f_time, 
+                 contents = "Smart Doorbell images: " + f_time, attachments = images)
+        print("Email Delivered")
+    except:
+        print("Email failed - show the code in the video instead")
 
   else:
     print("Nothing detected")
