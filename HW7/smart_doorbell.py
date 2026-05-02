@@ -24,11 +24,8 @@ while True:
   print(f"\nLooped {counter} times")
 
   # Force take two separate images
-  print("Capturing image 0...")
-  os.system('libcamera-still -n -o test0.jpg --width 1000 --height 720')
-  time.sleep(1) 
-  print("Capturing image 1...")
-  os.system('libcamera-still -n -o test1.jpg --width 1000 --height 720')
+  print("Capturing image...")
+  os.system('raspistill -n -t 1000 -o test%d.jpg --width 1000 --height 720')
   
   print("Analyzing images...")
   img1 = cv2.imread("test0.jpg")
@@ -59,7 +56,7 @@ while True:
     # define unique name for a new video
     timestr = time.strftime("doorbell-%Y%m%d-%H%M%S")
 
-    command2 = "libcamera-vid --width 1000 --height 720 --framerate 30 -t 15000 -o " + timestr + ".h264"
+    command2 = "raspivid -n -w 1000 -h 720 -t 15000 -o " + timestr + ".h264"
     os.system(command2)
 
     print("Finished recording...converting to mp4")
