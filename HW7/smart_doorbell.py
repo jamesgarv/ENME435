@@ -23,10 +23,14 @@ while True:
   counter += 1
   print(f"\nLooped {counter} times")
 
-  os.system('libcamera-still --width 1000 --height 720 -t 2100 --timelapse 1000 --nopreview -o test%d.jpg > /dev/null 2>&1')
-  print("Captured 1st & 2nd image for analysing")
-
-  # Mask images
+  # Force take two separate images
+  print("Capturing image 0...")
+  os.system('libcamera-still -n -o test0.jpg --width 1000 --height 720')
+  time.sleep(1) 
+  print("Capturing image 1...")
+  os.system('libcamera-still -n -o test1.jpg --width 1000 --height 720')
+  
+  print("Analyzing images...")
   img1 = cv2.imread("test0.jpg")
   img2 = cv2.imread("test1.jpg")
 
