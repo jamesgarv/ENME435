@@ -4,7 +4,6 @@ import cv2
 
 # Import timing and operating system packages
 # time is used for delays between images and video length
-# os is used to run the ffmpeg command for video conversion
 import time
 import os
 
@@ -24,38 +23,18 @@ from picamera2.encoders import H264Encoder
 from picamera2.outputs import FileOutput
 from libcamera import Transform
 
-"""
-# This function was used for initial mask calibration
-# It lets the user manually select points/regions on a calibration image
-# It is commented out because the final mask points are now hard-coded below
-
-def select_points(img): # for initial mask point selection
-    points = []
-    for i in range(0, 4): # number of points needed to form shape
-        bbox = cv2.selectROI(img, False)
-        print(bbox)
-        points.append([bbox[0], bbox[1]])
-    print(points)
-
-    return points
-"""
-
-# This function takes an image, applies the selected region mask,
-# then converts the result into a smaller grayscale blurred image
-# The grayscale output is what the program uses for image comparison
+# gets image, selected mask, grayscale blurred, outputs to image conversion
 def mask_image(img):
 
     # Create a black mask with the same height and width as the image
-    # The mask starts fully black, meaning nothing is selected yet
     mask = np.zeros((img.shape[0], img.shape[1]), dtype="uint8")
     # These are my final rectangle points for the area I want to monitor
     # I shifted the rectangle toward the left because my door is on the left side of the camera view
-    # Points are ordered as top-left, top-right, bottom-right, bottom-left
+    # respectively top-left, top-right, bottom-right, bottom-left
     pts = np.array([[50, 50], [750, 50], [750, 700], [50, 700]], dtype=np.int32)
     cv2.fillConvexPoly(mask, pts, 255)
 
     # Apply the mask to the original image
-    # Everything outside the selected region becomes black
     masked = cv2.bitwise_and(img, img, mask=mask)
     gray = cv2.resize(masked, (200, int(masked.shape[0] * 200 / masked.shape[1])))
     gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
@@ -77,7 +56,7 @@ time.sleep(1)
 
 try:
 
-    while True: #continuous
+    while True:
         if cv2.waitKey(1) == ord('q'):
             break
 
@@ -92,7 +71,7 @@ try:
         # Capture the first image
         # This acts as the "before" image
         picam2.capture_file("test1.jpg")
-        time.sleep(2) #2 second wait time, determined through testing to decide how much time was adequate for object detection between images
+        time.sleep(2) #2 second wait time
 
         # Capture the second image
         # This acts as the "after" image
@@ -119,11 +98,9 @@ try:
             for j in range(0, gray2.shape[1]):
 
                 # Compare the brightness of each pixel between image 1 and image 2
-                # If the absolute difference is greater than the pixel threshold,
-                # that pixel is marked as changed
+                # If the absolute difference is greater than the pixel threshold, pixel is marked as changed
                 if abs(int(gray2[i, j]) - int(gray1[i, j])) > pixel_threshold:
                     detector[i, j] = 255
-
 
         # Add up all changed pixels
         # Larger detector_total means more motion/change happened in the masked region
@@ -132,7 +109,6 @@ try:
         print(" ")
 
         # If the total amount of change is high enough, trigger the smart doorbell
-        # I chose 45000 because no motion was near 0 and walking into frame was over 100000, found through testing
         if detector_total > 45000:
 
             print("Smart Doorbell has detected someone/something at the door!")
@@ -142,7 +118,6 @@ try:
             picam2.start_recording(encoder, FileOutput(f"{timestr}.h264"))
 
             # Record for 7 seconds after detection
-            # This gives enough time to capture the event after motion is detected
             time.sleep(7)
             picam2.stop_recording()
 
@@ -154,7 +129,6 @@ try:
 
             print("Finished converting file...available for viewing")
 
-        
             cv2.imwrite("gray1.jpg", gray1)
             cv2.imwrite("gray2.jpg", gray2)
             cv2.imwrite("masked1.jpg", masked1)
@@ -164,7 +138,6 @@ try:
 
            # command4 = '/home/pi/dropbox_uploader.sh upload ' + fullDirectory + ' /'
            # os.system(command4)
-
 
             smtpUser = 'peam.affiliate@gmail.com'
             smtpPass = 'xirr uwbq bqzy skte'
