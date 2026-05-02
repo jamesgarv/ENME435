@@ -81,7 +81,7 @@ while True:
     yag = yagmail.SMTP('jamesgarvpi@gmail.com', password)
 
     f_time = datetime.now().strftime('%a %d %b @ %H:%M')
-    images = ['test1.jpg', 'test2.jpg', 'gray1.jpg', 'gray2.jpg', 'masked1.jpg', 'masked2.jpg']
+    images = ['test0.jpg', 'test1.jpg', 'gray1.jpg', 'gray2.jpg', 'masked1.jpg', 'masked2.jpg']
     yag.send(to = 'jgarvey5@terpmail.umd.edu', subject = 'Smart Doorbell recording from: ' + f_time, 
              contents = "Smart Doorbell images: " + f_time, attachments = images)
     print("Email Delivered")
