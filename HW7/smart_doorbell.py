@@ -25,7 +25,7 @@ while True:
 
   # Force take two separate images
   print("Capturing image...")
-  os.system('raspistill -n -t 1000 -o test%d.jpg --width 1000 --height 720')
+  # os.system('raspistill -n -t 1000 -o test%d.jpg --width 1000 --height 720')
   
   print("Analyzing images...")
   img1 = cv2.imread("test0.jpg")
@@ -56,13 +56,13 @@ while True:
     # define unique name for a new video
     timestr = time.strftime("doorbell-%Y%m%d-%H%M%S")
 
-    command2 = "raspivid -n -w 1000 -h 720 -t 15000 -o " + timestr + ".h264"
-    os.system(command2)
+    # command2 = "raspivid -n -w 1000 -h 720 -t 15000 -o " + timestr + ".h264"
+    # os.system(command2)
 
     print("Finished recording...converting to mp4")
 
-    command3 = f"ffmpeg -r 30 -i {timestr}.h264 -c:v copy {timestr}.mp4" # MP4Box was not available so using ffmpeg instead
-    os.system(command3)
+    # command3 = f"ffmpeg -r 30 -i {timestr}.h264 -c:v copy {timestr}.mp4" # MP4Box was not available so using ffmpeg instead
+    # os.system(command3)
 
     print("Finished converting file, available for viewing")
 
@@ -73,9 +73,9 @@ while True:
     cv2.imwrite("masked2.jpg", masked2)
 
     # Upload video file to the cloud
-    fullDirectory = '/home/pi/SmartDoorbell/' + timestr + '.mp4'
-    command4 = 'sudo /home/pi/dropbox_uploader.sh upload ' + fullDirectory + ' /'
-    os.system(command4)
+    # fullDirectory = '/home/pi/SmartDoorbell/' + timestr + '.mp4'
+    # command4 = 'sudo /home/pi/dropbox_uploader.sh upload ' + fullDirectory + ' /'
+    # os.system(command4)
 
     # send email to user with images
     password = 'raspberrypi'
@@ -83,6 +83,8 @@ while True:
 
     f_time = datetime.now().strftime('%a %d %b @ %H:%M')
     images = ['test0.jpg', 'test1.jpg', 'gray1.jpg', 'gray2.jpg', 'masked1.jpg', 'masked2.jpg']
+    
+    # Optional: Comment out the next line if you don't want to wait for the email timeout during your video
     yag.send(to = 'jgarvey5@terpmail.umd.edu', subject = 'Smart Doorbell recording from: ' + f_time, 
              contents = "Smart Doorbell images: " + f_time, attachments = images)
     print("Email Delivered")
