@@ -27,8 +27,8 @@ while True:
   print("Captured 1st & 2nd image for analysing")
 
   # Mask images
-  img1 = cv2.imread("test1.jpg")
-  img2 = cv2.imread("test2.jpg")
+  img1 = cv2.imread("test0.jpg")
+  img2 = cv2.imread("test1.jpg")
 
   if img1 is None or img2 is None:
     print("Camera failed to capture images, skipping...")
@@ -88,3 +88,5 @@ while True:
 
   else:
     print("Nothing detected")
+
+  time.sleep(1)
