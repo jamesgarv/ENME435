@@ -72,8 +72,8 @@ for x in files:  # x is the filename
 
     # Pull pointing angle from each filename
     # Ensure all filenames have POSITIVE angle values (0-359 deg)
-    angle = re.findall('\\d+', x)
-    angle = int(angle[1])
+    angle = re.findall('r\d+', x)
+    angle = int(angle[-1])
     print(angle)
 
     # Read in image
