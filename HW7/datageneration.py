@@ -55,12 +55,12 @@ for i in range(0, 720):
     ang[i] = 0.000942479485*(i-360)
 # print ang
 
-files = glob.glob('beltsander2/*.jpg')      # finds all the pathnames matching a specified pattern
+files = glob.glob('stone front/*.jpg')      # finds all the pathnames matching a specified pattern
 print(files)
 
 # Write (angle,x,y) coordinates of laser spot to file
 # for post-processing
-f = open('beltsander2/testresults.txt', 'a')
+f = open('stone_front_points/testresults.txt', 'a')
 # now = datetime.datetime.now()
 # timestamp = now.strftime("%Y/%m/%d %H:%M")
 
@@ -165,8 +165,8 @@ ax.view_init(elev=110, azim=110)
 ax.set_xlabel('X Label')
 ax.set_ylabel('Y Label')
 ax.set_zlabel('Z Label')
-plt.xlim(-40, 40)
-plt.ylim(20, 100)
+# plt.xlim(-40, 40)
+# plt.ylim(20, 100)
 plt.show()
 
 print(" ")
